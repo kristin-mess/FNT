@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Future Homeowner Journey · Fidelity National Title and FirstHome IQ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --dark-green:#1C4942; --green:#0FA57A; --bright-green:#1ECD9C; --ivory:#F2F2EF;
+  --light-teal:#CDE3D8; --light-teal-100:#E3EFE8; --dark-grey:#484545; --white:#FFFFFF;
+  --red:#EF4C19; --deep-teal:#016373; --dark-green-900:#11302B; --green-600:#0C8C68;
+  --line:#E2E4DF; --fg-muted:#7B7977;
+  --font-sans:'Montserrat',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  --r-md:16px; --r-lg:24px; --r-pill:999px;
+  --shadow-md:0 2px 20px rgba(28,73,66,0.07); --shadow-lg:0 8px 30px rgba(28,73,66,0.12);
+  --ease:cubic-bezier(0.4,0,0.2,1); --dur:0.3s;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-sans);background:var(--ivory);color:var(--dark-grey);line-height:1.65;-webkit-font-smoothing:antialiased}
+.wrap{max-width:880px;margin:0 auto;padding:0 22px}
+h1,h2,h3{color:var(--dark-green);letter-spacing:-0.01em;line-height:1.08}
+.eyebrow{font-weight:600;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:var(--green)}
+a{color:var(--green);text-decoration:none}
+a:hover{color:var(--green-600)}
+
+/* ---- top co-brand bar ---- */
+.topbar{position:sticky;top:0;z-index:40;background:var(--dark-green);color:var(--white);
+  display:flex;align-items:center;justify-content:space-between;padding:10px 20px;gap:12px}
+.cobrand{display:flex;align-items:center;gap:14px}
+.logo-slot{border:1.5px dashed rgba(255,255,255,0.45);border-radius:8px;padding:7px 12px;
+  font-size:10px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.6);white-space:nowrap}
+.partner-name{font-weight:700;font-size:15px;color:#fff;white-space:nowrap}
+.cobrand .x{color:rgba(255,255,255,0.4);font-weight:400}
+.fhiq{display:flex;align-items:center;gap:8px;font-weight:800;font-size:15px;color:var(--white)}
+.fhiq .iq{color:var(--bright-green)}
+.wave{display:inline-flex;align-items:flex-end;gap:2px;height:16px}
+.wave span{width:3px;background:var(--bright-green);border-radius:2px;animation:eq 1.4s var(--ease) infinite}
+.wave span:nth-child(1){height:6px;animation-delay:0s}
+.wave span:nth-child(2){height:14px;animation-delay:.2s}
+.wave span:nth-child(3){height:9px;animation-delay:.4s}
+.wave span:nth-child(4){height:16px;animation-delay:.1s}
+@keyframes eq{0%,100%{transform:scaleY(.5)}50%{transform:scaleY(1)}}
+.toggle{display:flex;align-items:center;gap:8px;font-size:11px;font-weight:600;letter-spacing:0.08em;
+  text-transform:uppercase;color:rgba(255,255,255,0.75);cursor:pointer;user-select:none}
+.switch{width:34px;height:18px;border-radius:999px;background:rgba(255,255,255,0.22);position:relative;transition:background var(--dur)}
+.switch::after{content:"";position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;background:#fff;transition:transform var(--dur)}
+.toggle.on .switch{background:var(--bright-green)}
+.toggle.on .switch::after{transform:translateX(16px)}
+
+/* ---- integration annotations (partner view) ---- */
+.seam{display:none;border:1.5px dashed var(--deep-teal);background:rgba(1,99,115,0.05);
+  border-radius:12px;padding:14px 16px;margin:18px 0}
+body.show-seams .seam{display:block;animation:fade .4s var(--ease)}
+.seam .tag{display:inline-block;font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--deep-teal);background:rgba(1,99,115,0.1);padding:3px 9px;border-radius:5px;margin-bottom:7px}
+.seam p{font-size:13.5px;color:#33585f;line-height:1.5}
+
+/* ---- screens ---- */
+.screen{display:none;padding:44px 0 64px}
+.screen.active{display:block;animation:fade .45s var(--ease)}
+@keyframes fade{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+/* ---- hero ---- */
+.hero{background:var(--dark-green);color:var(--white);text-align:center;padding:72px 20px;position:relative;overflow:hidden;min-height:70vh;display:flex;flex-direction:column;justify-content:center;align-items:center}
+.hero::before{content:"";position:absolute;width:520px;height:520px;border-radius:50%;
+  background:radial-gradient(circle,rgba(30,205,156,0.18),transparent 70%);top:-200px;left:50%;transform:translateX(-50%);animation:pulse 9s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:.6}50%{opacity:1}}
+.hero h1{color:var(--white);font-weight:900;font-size:clamp(32px,5vw,54px);position:relative;max-width:780px;margin:0 auto}
+.hero .lead{color:rgba(255,255,255,0.78);font-size:18px;max-width:480px;margin:20px auto 0;position:relative}
+.hero .eyebrow{color:var(--bright-green);position:relative;display:block;margin-bottom:22px}
+
+/* ---- buttons ---- */
+.btn{display:inline-flex;align-items:center;gap:8px;font-family:var(--font-sans);font-weight:700;font-size:15px;
+  padding:15px 30px;border-radius:var(--r-pill);background:var(--green);color:var(--white);border:none;cursor:pointer;
+  transition:background var(--dur) var(--ease),transform var(--dur) var(--ease)}
+.btn:hover{background:var(--dark-green);color:#fff;transform:translateY(-2px)}
+.btn.ghost{background:transparent;color:var(--white);border:2px solid rgba(255,255,255,0.5)}
+.btn.ghost:hover{background:rgba(255,255,255,0.1);border-color:#fff}
+.btn.ghost-green{background:transparent;color:var(--dark-green);border:2px solid var(--dark-green)}
+.btn.ghost-green:hover{background:var(--dark-green);color:#fff}
+.btn.sm{padding:11px 22px;font-size:14px}
+.btnrow{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-top:30px;position:relative}
+
+/* ---- question screens ---- */
+.qhead{text-align:center;margin-bottom:30px}
+.qhead .eyebrow{display:block;margin-bottom:10px}
+.qhead h2{font-size:clamp(24px,4vw,34px);font-weight:800}
+.qhead p{color:var(--fg-muted);margin-top:10px;font-size:15px}
+.options{display:flex;flex-direction:column;gap:11px;max-width:520px;margin:0 auto}
+.opt{display:flex;align-items:center;gap:13px;background:#fff;border:1.5px solid var(--line);border-radius:14px;
+  padding:16px 18px;cursor:pointer;font-weight:500;font-size:15.5px;color:var(--dark-green);text-align:left;
+  transition:border-color var(--dur),box-shadow var(--dur),transform var(--dur)}
+.opt:hover{border-color:var(--green);transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.opt.sel{border-color:var(--green);background:var(--light-teal-100);box-shadow:var(--shadow-md)}
+.opt .dot{width:18px;height:18px;border-radius:50%;border:2px solid var(--line);flex-shrink:0;transition:all var(--dur)}
+.opt.sel .dot{border-color:var(--green);background:var(--green);box-shadow:inset 0 0 0 3px #fff}
+.opt.feature{border-color:var(--green);background:linear-gradient(135deg,#fff,var(--light-teal-100))}
+.opt .ft-tag{margin-left:auto;font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;
+  color:var(--green);background:rgba(15,165,122,0.12);padding:3px 8px;border-radius:5px}
+.navrow{display:flex;justify-content:space-between;align-items:center;max-width:520px;margin:28px auto 0}
+.back{background:none;border:none;color:var(--fg-muted);font-family:var(--font-sans);font-weight:600;font-size:14px;cursor:pointer}
+.back:hover{color:var(--dark-green)}
+.progress{display:flex;gap:6px;justify-content:center;margin-bottom:34px}
+.progress i{width:30px;height:4px;border-radius:3px;background:var(--line);transition:background var(--dur)}
+.progress i.done{background:var(--green)}
+
+/* ---- stub banner ---- */
+.stub{max-width:520px;margin:0 auto 22px;background:#fff;border-left:4px solid var(--bright-green);
+  border-radius:8px;padding:12px 16px;font-size:13px;color:var(--fg-muted)}
+
+/* ---- offer screen ---- */
+.offercard{background:#fff;border-radius:var(--r-lg);box-shadow:var(--shadow-lg);padding:38px 30px;text-align:center;max-width:560px;margin:0 auto}
+.offercard h2{font-size:28px;font-weight:800;margin-bottom:12px}
+.offercard p{color:var(--dark-grey);margin-bottom:6px}
+.recap{background:var(--light-teal-100);border-radius:12px;padding:16px 18px;text-align:left;margin:22px 0;font-size:14px}
+.recap b{color:var(--dark-green)}
+
+/* ---- modules / journey ---- */
+.jhead{text-align:center;margin-bottom:8px}
+.jhead h2{font-size:clamp(24px,4vw,34px);font-weight:800}
+.jhead p{color:var(--fg-muted);max-width:540px;margin:10px auto 0}
+.mod{background:#fff;border-radius:var(--r-md);box-shadow:var(--shadow-md);margin:16px 0;overflow:hidden;transition:box-shadow var(--dur)}
+.mod-head{display:flex;align-items:center;gap:14px;padding:18px 20px;cursor:pointer}
+.mod-num{width:34px;height:34px;border-radius:50%;background:var(--light-teal);color:var(--dark-green);
+  font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:15px;transition:all var(--dur)}
+.mod.open .mod-num{background:var(--green);color:#fff}
+.mod-title{font-weight:700;color:var(--dark-green);font-size:16.5px;flex:1}
+.mod.done .mod-num{background:var(--bright-green);color:var(--dark-green-900)}
+.chev{color:var(--fg-muted);transition:transform var(--dur);font-size:13px}
+.mod.open .chev{transform:rotate(180deg)}
+.mod-body{display:none;padding:0 20px 22px;border-top:1px solid var(--line)}
+.mod.open .mod-body{display:block;animation:fade .35s var(--ease)}
+.mod-body .frame{font-size:14.5px;color:var(--dark-grey);margin:16px 0}
+.video{position:relative;border-radius:12px;overflow:hidden;cursor:pointer;aspect-ratio:16/9;background:var(--dark-green)}
+.video img{width:100%;height:100%;object-fit:cover;display:block;opacity:.9}
+.video .play{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
+.video .play span{width:58px;height:58px;border-radius:50%;background:rgba(15,165,122,0.92);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 18px rgba(0,0,0,0.3);transition:transform var(--dur)}
+.video:hover .play span{transform:scale(1.08)}
+.video .play span::after{content:"";border-style:solid;border-width:11px 0 11px 18px;border-color:transparent transparent transparent #fff;margin-left:4px}
+.video iframe{width:100%;height:100%;border:0;display:block}
+.ex{background:var(--ivory);border-radius:12px;padding:15px 17px;margin:15px 0}
+.ex .lbl{font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--green);margin-bottom:6px}
+.ex p{font-size:14px;color:var(--dark-grey)}
+.did{display:flex;align-items:center;gap:11px;cursor:pointer;font-size:14px;font-weight:600;color:var(--dark-green);margin-top:14px;user-select:none}
+.did .box{width:22px;height:22px;border-radius:6px;border:2px solid var(--line);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all var(--dur)}
+.mod.done .did .box{background:var(--green);border-color:var(--green)}
+.mod.done .did .box::after{content:"✓";color:#fff;font-size:13px;font-weight:800}
+
+/* ---- plan capture ---- */
+.plan{background:var(--dark-green);color:#fff;border-radius:var(--r-lg);padding:34px 28px;text-align:center;margin:30px 0}
+.plan h2{color:#fff;font-size:26px;font-weight:800;margin-bottom:10px}
+.plan p{color:rgba(255,255,255,0.78);max-width:460px;margin:0 auto 22px;font-size:15px}
+.formrow{display:flex;flex-direction:column;gap:11px;max-width:380px;margin:0 auto}
+.formrow input{font-family:var(--font-sans);font-size:15px;padding:14px 16px;border-radius:12px;border:none;width:100%}
+.formrow input:focus{outline:2px solid var(--bright-green)}
+.fine{font-size:12px;color:rgba(255,255,255,0.5);margin-top:12px}
+.sent{display:none;background:var(--bright-green);color:var(--dark-green-900);font-weight:700;border-radius:12px;padding:16px;margin-top:8px}
+
+/* ---- did you know ---- */
+.dyk{background:var(--light-teal);border-radius:var(--r-md);padding:26px 24px;text-align:center;margin:26px 0}
+.dyk .eyebrow{color:var(--deep-teal)}
+.dyk .stat{font-weight:800;color:var(--dark-green);font-size:19px;margin:8px 0 4px}
+.dyk .src{font-size:11px;color:var(--fg-muted);letter-spacing:0.04em}
+
+/* ---- handoff ---- */
+.handoff{text-align:center;padding:34px 0 10px}
+.handoff h3{font-size:20px;margin-bottom:8px}
+.handoff p{color:var(--fg-muted);max-width:480px;margin:0 auto 18px;font-size:15px}
+
+footer{text-align:center;padding:36px 20px 56px;color:var(--fg-muted);font-size:12.5px}
+footer .restart{background:none;border:none;color:var(--green);font-weight:600;cursor:pointer;font-family:var(--font-sans);font-size:12.5px}
+
+/* ---- per-step answer box ---- */
+.answer{margin-top:16px;border-top:1px dashed var(--line);padding-top:15px}
+.answer label{display:block;font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--green);margin-bottom:8px}
+.answer textarea{width:100%;font-family:var(--font-sans);font-size:14px;line-height:1.55;padding:12px 14px;border:1.5px solid var(--line);border-radius:10px;resize:vertical;min-height:74px;color:var(--dark-grey);background:#fff}
+.answer textarea:focus{outline:2px solid var(--green)}
+.answer .row{display:flex;align-items:center;gap:13px;margin-top:11px}
+.saved-tip{font-size:13px;font-weight:600;color:var(--green)}
+.viewplan{text-align:center;margin:6px 0 4px}
+.viewplan button{background:none;border:none;color:var(--green);font-weight:700;font-family:var(--font-sans);font-size:15px;cursor:pointer}
+.viewplan button:hover{color:var(--green-600)}
+
+/* ---- plan / profile page ---- */
+.plandoc{background:#fff;border-radius:var(--r-md);box-shadow:var(--shadow-md);padding:28px 26px;margin:8px 0 22px}
+.plandoc h4{color:var(--green);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;margin:20px 0 6px}
+.plandoc h4:first-child{margin-top:0}
+.plandoc p{font-size:15px;margin-bottom:2px;color:var(--dark-grey)}
+.plandoc .step-t{font-weight:700;color:var(--dark-green);font-size:14.5px;margin-top:15px}
+.plandoc .note{background:var(--ivory);border-radius:10px;padding:12px 14px;margin:5px 0;font-size:14px;white-space:pre-wrap;color:var(--dark-grey)}
+
+/* ---- toast ---- */
+#toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--dark-green);color:#fff;padding:13px 24px;border-radius:999px;font-size:14px;font-weight:600;opacity:0;pointer-events:none;transition:opacity .3s var(--ease),transform .3s var(--ease);z-index:60}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+@media(max-width:520px){
+  .topbar{flex-wrap:wrap;gap:8px;padding:8px 14px}
+  .toggle .t-label{display:none}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="cobrand">
+    <div class="partner-name">Fidelity National Title</div>
+    <span class="x">+</span>
+    <div class="fhiq"><span class="wave"><span></span><span></span><span></span><span></span></span>FirstHome<span class="iq">&nbsp;IQ</span></div>
+  </div>
+  <div class="toggle" id="seamToggle" onclick="toggleSeams()">
+    <span class="t-label">Integration notes</span><span class="switch"></span>
+  </div>
+</div>
+
+<!-- ============ SCREEN: HERO ============ -->
+<section class="screen active" id="s-hero">
+  <div class="hero">
+    <span class="eyebrow">Own your future</span>
+    <h1>You're closer to owning a home than you think.</h1>
+    <p class="lead">A few short questions, a few short videos, and a plan that's actually yours.</p>
+    <div class="btnrow">
+      <button class="btn" onclick="go('s-q1')">Start where you are →</button>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="seam">
+      <span class="tag">Integration point · audience</span>
+      <p>This is the entry for the ~30% of an agent or lender database who don't own yet (renters, Zillow leads, past inquiries). Your hub already tags and segments these contacts. One click drops them into this experience. Flip these notes off to click through as the consumer would.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SCREEN: Q1 STAGE ============ -->
+<section class="screen" id="s-q1">
+  <div class="wrap">
+    <div class="progress"><i class="done"></i><i></i><i></i></div>
+    <div class="qhead">
+      <span class="eyebrow">Where you're starting</span>
+      <h2>Where are you in the homebuying journey today?</h2>
+      <p>Pick the one that's closest to you right now.</p>
+    </div>
+    <div class="options" id="q1opts">
+      <button class="opt" onclick="pickStage(this,'curious')"><span class="dot"></span>Just curious, dreaming a little</button>
+      <button class="opt" onclick="pickStage(this,'starting')"><span class="dot"></span>Starting to think about it seriously</button>
+      <button class="opt" onclick="pickStage(this,'saving')"><span class="dot"></span>Actively saving and preparing</button>
+      <button class="opt" onclick="pickStage(this,'lender')"><span class="dot"></span>Working with a lender or pre-approved</button>
+    </div>
+    <div class="navrow"><button class="back" onclick="go('s-hero')">← Back</button><span></span></div>
+    <div class="seam">
+      <span class="tag">Integration point · segmentation</span>
+      <p>This is the same "identify where they are" step your next-gen landing page is built around. Currently, every stage flows into the renter / future-buyer journey, but the information is saved to their homebuyer plan. Based on their concerns and stage, the copy in the path forward adapts to them.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SCREEN: Q2 STRESS ============ -->
+<section class="screen" id="s-q2">
+  <div class="wrap">
+    <div class="progress"><i class="done"></i><i class="done"></i><i></i></div>
+    <div class="qhead">
+      <span class="eyebrow">What's on your mind</span>
+      <h2>When you think about buying a home, what stresses you out the most?</h2>
+      <p>Pick the one that hits hardest. This shapes where your plan starts.</p>
+    </div>
+    <div class="options">
+      <button class="opt" onclick="pickOne(this,'stress','afford')"><span class="dot"></span>I don't know if I can afford it</button>
+      <button class="opt" onclick="pickOne(this,'stress','credit')"><span class="dot"></span>My credit isn't where it needs to be</button>
+      <button class="opt" onclick="pickOne(this,'stress','debt')"><span class="dot"></span>I have too much debt</button>
+      <button class="opt" onclick="pickOne(this,'stress','down')"><span class="dot"></span>I don't have enough saved for a down payment</button>
+      <button class="opt" onclick="pickOne(this,'stress','right')"><span class="dot"></span>I'm not sure buying is even the right move</button>
+      <button class="opt" onclick="pickOne(this,'stress','process')"><span class="dot"></span>I don't really understand the process</button>
+    </div>
+    <div class="navrow"><button class="back" onclick="go('s-q1')">← Back</button><span></span></div>
+    <div class="seam">
+      <span class="tag">Integration point · the confession-box effect</span>
+      <p>People disclose far more to a screen than to a salesperson. This low-pressure intake captures real intent and worry before any human conversation, exactly the signal a loan officer or agent never gets at first contact.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SCREEN: RELATE ============ -->
+<section class="screen" id="s-relate">
+  <div class="wrap">
+    <div class="progress"><i class="done"></i><i class="done"></i><i class="done"></i></div>
+    <div class="qhead">
+      <span class="eyebrow">Why it matters</span>
+      <h2>Why do you want to own a home?</h2>
+      <p>This is the part that keeps you going. We'll bring it back at the end.</p>
+    </div>
+    <div class="options">
+      <button class="opt" onclick="pickOne(this,'why','stability')"><span class="dot"></span>Stability and security for me or my family</button>
+      <button class="opt" onclick="pickOne(this,'why','wealth')"><span class="dot"></span>Building wealth and equity</button>
+      <button class="opt" onclick="pickOne(this,'why','mine')"><span class="dot"></span>Having a place that's actually mine</button>
+      <button class="opt" onclick="pickOne(this,'why','legacy')"><span class="dot"></span>A legacy for my kids or the next generation</button>
+      <button class="opt" onclick="pickOne(this,'why','rent')"><span class="dot"></span>I'm tired of paying rent</button>
+    </div>
+    <div class="navrow"><button class="back" onclick="go('s-q2')">← Back</button><span></span></div>
+  </div>
+</section>
+
+<!-- ============ SCREEN: OFFER ============ -->
+<section class="screen" id="s-offer">
+  <div class="wrap">
+    <div class="offercard">
+      <span class="eyebrow">Here's the deal</span>
+      <h2>Want a plan that's built just for you?</h2>
+      <p>We'll build your personalized FirstHome plan as you go. Either way, the education below is yours to keep, free, no strings.</p>
+      <div class="recap" id="recap"></div>
+      <div class="btnrow" style="margin-top:8px">
+        <button class="btn" onclick="go('s-journey')">Build my plan →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SCREEN: JOURNEY ============ -->
+<section class="screen" id="s-journey">
+  <div class="wrap">
+    <div class="jhead">
+      <span class="eyebrow">Your path forward</span>
+      <h2>Five short steps to ready</h2>
+      <p id="journeyIntro">Each one is a quick video and one small thing to actually do. Check them off as you go.</p>
+    </div>
+    <div id="mods"></div>
+
+    <div class="seam">
+      <span class="tag">Integration point · your tools render here</span>
+      <p>This is where your listing search and the total-cost-of-living comparison tool live, side by side with the education. The renter sees "here's what to know" next to "here's what's available," and the lender stays the money. Your tech, our content.</p>
+    </div>
+
+    <!-- plan capture -->
+    <div class="plan">
+      <h2>Your FirstHome plan, ready to go</h2>
+      <p>Add your name and email to save your personalized plan: your answers, your notes, and your next step, all in one place. Then share it with your agent, lender, or advisor.</p>
+      <div class="formrow">
+        <input type="text" id="fn" placeholder="First name">
+        <input type="email" id="em" placeholder="Email address">
+        <button class="btn" style="width:100%;justify-content:center" onclick="goToPlan()">See my plan →</button>
+      </div>
+      <div class="sent" id="sent"></div>
+      <p class="fine">No spam. Your plan stays on your device unless you share it.</p>
+    </div>
+
+    <div class="viewplan"><button onclick="goToPlan(true)">Or just view my saved plan →</button></div>
+
+    <!-- did you know -->
+    <div class="dyk" id="dyk"></div>
+
+    <!-- handoff -->
+    <div class="handoff">
+      <h3>Ready for a real conversation?</h3>
+      <p>You've got the foundation. The next step turns "what can I afford" into a real answer.</p>
+      <button class="btn sm" onclick="alert('Demo: in production this hands the consumer back into your hub, or to the agent or lender of record.')">Continue in your hub →</button>
+    </div>
+    <div class="seam">
+      <span class="tag">Integration point · handoff</span>
+      <p>The journey ends by returning the now-educated, now-engaged consumer to your ecosystem, into their hub or connected to their agent, to become a tracked future buyer.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SCREEN: MY PLAN ============ -->
+<section class="screen" id="s-plan">
+  <div class="wrap">
+    <div class="jhead">
+      <span class="eyebrow">Your homebuyer plan</span>
+      <h2 id="planHi">Your plan</h2>
+      <p>Everything you've worked through, in one place. Copy it, or send it to your agent, lender, or advisor.</p>
+    </div>
+    <div class="plandoc" id="planDoc"></div>
+    <div class="btnrow" style="justify-content:center;margin-top:0">
+      <button class="btn" onclick="copyPlan()">Copy my plan</button>
+      <button class="btn ghost-green" onclick="emailPlan()">Email my plan</button>
+    </div>
+    <div class="navrow" style="justify-content:center;margin-top:20px"><button class="back" onclick="go('s-journey')">← Back to the steps</button></div>
+    <div class="seam">
+      <span class="tag">Integration point · the plan as the asset</span>
+      <p>This saved plan is the durable artifact: the consumer's answers, notes, and next step. It's what moves into their hub profile and what a connected agent or lender sees. In production this lives in their account; here it's saved to the browser, no login required.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div>Powered by <strong>FirstHome IQ</strong> · A 501(c)(3) nonprofit · Driven by purpose, not profit.</div>
+  <div style="margin-top:8px">Demo prototype for partnership discussion. &nbsp;·&nbsp; <button class="restart" onclick="restart()">Restart the demo</button></div>
+</footer>
+
+<div id="toast"></div>
+
+<script>
+// ---- state ----
+var state={stage:null,stress:null,why:null,notes:{},name:"",email:""};
+var STAGE_LABEL={renter:"Renting, exploring",curious:"Just curious",starting:"Starting to plan",saving:"Actively saving",lender:"Working with a lender"};
+var STRESS_LABEL={afford:"affording it",credit:"your credit",debt:"debt",down:"a down payment",right:"whether buying is right",process:"the process"};
+var WHY_LABEL={stability:"stability and security",wealth:"building wealth",mine:"a place that's yours",legacy:"a legacy for the next generation",rent:"being done with rent"};
+
+function go(id){
+  document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active')});
+  document.getElementById(id).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+  if(id==='s-journey')renderJourney();
+}
+function toggleSeams(){
+  document.body.classList.toggle('show-seams');
+  document.getElementById('seamToggle').classList.toggle('on');
+}
+function pickStage(el,val){
+  document.querySelectorAll('#q1opts .opt').forEach(function(o){o.classList.remove('sel')});
+  el.classList.add('sel');state.stage=val;save();
+  setTimeout(function(){go('s-q2')},220);
+}
+function pickOne(el,key,val){
+  var parent=el.parentNode;
+  parent.querySelectorAll('.opt').forEach(function(o){o.classList.remove('sel')});
+  el.classList.add('sel');state[key]=val;save();
+  setTimeout(function(){go(key==='stress'?'s-relate':'s-offer')},220);
+  if(key==='why')buildRecap();
+}
+function buildRecap(){
+  var r=document.getElementById('recap');
+  r.innerHTML='<b>Where you are:</b> '+(STAGE_LABEL[state.stage]||'Exploring')+'<br>'+
+    '<b>What’s on your mind:</b> '+(STRESS_LABEL[state.stress]||'getting started')+'<br>'+
+    '<b>Why it matters:</b> '+(WHY_LABEL[state.why]||'your future');
+}
+
+// ---- modules ----
+var MODULES=[
+ {t:"Should I rent or own?",vid:"u8GOWR2tMcs",
+  frame:"Before anything else, sit with the real question: is owning the right move for you right now? Renting works for some seasons of life, owning works for others. This walks you through both the math and the values, so you decide with both eyes open.",
+  exLbl:"Do this",ex:"Open the Rent vs. Own calculator. Enter your rent, an estimated home price, your down payment, and how long you'd stay. See total cost of renting vs. owning, plus equity built.",
+  exHref:"https://learn.firsthomeiq.com/calculators/rent-vs-own",exCta:"Open the calculator",
+  did:"I ran the numbers and I have a clearer answer."},
+ {t:"Build a budget that fits your real life",vid:"KQ_KWIpdW60",
+  frame:"A budget shows you where your money goes today, so you can decide what it does next. This walks you through the FirstHome IQ budget worksheet and helps you find a comfortable monthly payment, the way a lender would.",
+  exLbl:"Do this",ex:"Open the budget calculator. Enter your take-home pay and expenses to see what's comfortable for a housing payment, the way a lender would look at it.",
+  exHref:"https://learn.firsthomeiq.com/calculators/home-budget?monthlyTakeHome=5500&monthlyNonHousing=1800&monthlySavingsTarget=1100&mortgageRatePct=6.5&mortgageTermYears=30&propertyTaxPct=1.1&homeInsurancePct=0.5&monthlyHoa=0&downPayment=20000",exCta:"Open the budget calculator",
+  did:"I made a copy of the budget and started filling it in."},
+ {t:"How much do you actually need to put down?",vid:"Lt-fg22y--c",
+  frame:"Most people overestimate the down payment. The average first-time buyer puts down about 8%, not 20%, and there are over 2,000 down payment assistance programs in the US. Here's how to find your real target and a plan to hit it.",
+  exLbl:"Do this",ex:"Use the down payment calculator to compare your options and see how each one changes your monthly payment, then set a monthly savings target to reach it. You'll also find down payment assistance programs there, and always confirm your real numbers with your lender.",
+  exHref:"https://learn.firsthomeiq.com/calculators/down-payment",exCta:"Open the down payment calculator",
+  did:"I have a real down payment target and a timeline."},
+ {t:"Credit, decoded",vid:"-CL2witnB-8",
+  frame:"Your credit is a number, and it's a story you can rewrite. Here's what's in your score, where to pull yours for free, and the three things that move it most.",
+  exLbl:"Do this",ex:"Pull your free credit report (no card needed, it's federal law), then set up free monitoring to watch your score and see the specific moves that improve it.",
+  exHref:"https://www.annualcreditreport.com/index.action",exCta:"Pull your free report",
+  did:"I know my score, or exactly when I'll pull it."},
+ {t:"Your path to the front door",vid:"n1VqSmn5MFk",
+  frame:"You've weighed renting vs. owning. You've got a budget, a savings target, and a sense of your credit. Now the practical sequence: name what you want, get pre-approved early, then the real conversations. Everything gets easier with a number in hand.",
+  exLbl:"Do this",ex:"Build your home wishlist: your must-haves, deal-breakers, and nice-to-haves. Then take the one action that unlocks the rest: start a pre-approval conversation.",
+  exHref:"https://learn.firsthomeiq.com/calculators/home-wishlist",exCta:"Build your home wishlist",
+  did:"I know what I want and my next move toward pre-approval."}
+];
+function renderJourney(){
+  var intro=document.getElementById('journeyIntro');
+  if(state.why){intro.innerHTML='You told us this is about <strong style="color:var(--dark-green)">'+(WHY_LABEL[state.why]||'your future')+'</strong>. Here’s how to get there, one small step at a time.';}
+  var box=document.getElementById('mods');
+  if(box.dataset.built)return;box.dataset.built="1";
+  MODULES.forEach(function(m,i){
+    var el=document.createElement('div');el.className='mod'+(i===0?' open':'');
+    el.innerHTML=
+      '<div class="mod-head" onclick="toggleMod(this)">'+
+        '<div class="mod-num">'+(i+1)+'</div>'+
+        '<div class="mod-title">'+m.t+'</div>'+
+        '<div class="chev">▼</div>'+
+      '</div>'+
+      '<div class="mod-body">'+
+        '<p class="frame">'+m.frame+'</p>'+
+        '<div class="video" onclick="playVid(this,\''+m.vid+'\')">'+
+          '<img loading="lazy" src="https://i.ytimg.com/vi/'+m.vid+'/hqdefault.jpg" alt="" onerror="this.style.display=&#39;none&#39;">'+
+          '<div class="play"><span></span></div>'+
+        '</div>'+
+        '<div class="ex"><div class="lbl">'+m.exLbl+'</div><p>'+m.ex+'</p>'+
+          '<a class="btn sm" style="margin-top:11px" href="'+m.exHref+'" target="_blank" rel="noopener">'+m.exCta+' ↗</a></div>'+
+        '<div class="did" onclick="markDone(this)"><span class="box"></span><span>'+m.did+'</span></div>'+
+        '<div class="answer"><label>Your notes for this step</label>'+
+          '<textarea id="note'+i+'" placeholder="Jot what you found, your numbers, or questions to bring to your agent or lender."></textarea>'+
+          '<div class="row"><button class="btn sm" onclick="saveStep('+i+')">Save to my plan</button><span class="saved-tip" id="tip'+i+'"></span></div>'+
+        '</div>'+
+      '</div>';
+    box.appendChild(el);
+    if(state.notes[i])document.getElementById('note'+i).value=state.notes[i];
+  });
+}
+function toggleMod(h){h.parentNode.classList.toggle('open')}
+function markDone(d){d.closest('.mod').classList.toggle('done')}
+function playVid(v,id){
+  // YouTube blocks embeds from file:// origins (Error 153). Open in a new tab when previewing locally; embed inline when hosted on a real domain.
+  if(location.protocol==='file:'){window.open('https://www.youtube.com/watch?v='+id,'_blank');return;}
+  v.innerHTML='<iframe src="https://www.youtube-nocookie.com/embed/'+id+'?autoplay=1&rel=0" allow="autoplay; encrypted-media; fullscreen" allowfullscreen></iframe>';
+}
+
+// ---- per-step save ----
+function saveStep(i){
+  var v=document.getElementById('note'+i).value;
+  state.notes[i]=v;save();
+  var mod=document.querySelectorAll('#mods .mod')[i];
+  if(v.trim())mod.classList.add('done');
+  var tip=document.getElementById('tip'+i);
+  tip.textContent='Saved to your plan ✓';
+  clearTimeout(tip._h);tip._h=setTimeout(function(){tip.textContent=''},2200);
+}
+
+// ---- plan / profile ----
+function goToPlan(skip){
+  if(skip!==true){
+    var fn=document.getElementById('fn').value.trim();
+    var em=document.getElementById('em').value.trim();
+    var s=document.getElementById('sent');
+    if(!fn){s.style.display='block';s.style.background='#fff';s.style.color='var(--red)';s.textContent='Add your name so we can personalize your plan.';return;}
+    state.name=fn;state.email=em;save();
+  }
+  renderPlan();go('s-plan');
+}
+function planText(){
+  var L=[];
+  L.push('My FirstHome Plan'+(state.name?' for '+state.name:''));
+  L.push('');
+  L.push('WHERE I AM: '+(STAGE_LABEL[state.stage]||'Exploring'));
+  L.push('WHAT IS ON MY MIND: '+(STRESS_LABEL[state.stress]||'getting started'));
+  L.push('WHY IT MATTERS: '+(WHY_LABEL[state.why]||'my future'));
+  L.push('');
+  MODULES.forEach(function(m,i){var n=(state.notes[i]||'').trim();if(n){L.push(m.t.toUpperCase());L.push(n);L.push('');}});
+  L.push('Built with FirstHome IQ · firsthomeiq.com');
+  return L.join('\n');
+}
+function renderPlan(){
+  document.getElementById('planHi').textContent=(state.name?state.name+'’s':'Your')+' homebuyer plan';
+  var h='';
+  h+='<h4>Where I am</h4><p>'+(STAGE_LABEL[state.stage]||'Exploring')+'</p>';
+  h+='<h4>What’s on my mind</h4><p>'+(STRESS_LABEL[state.stress]||'getting started')+'</p>';
+  h+='<h4>Why it matters</h4><p>'+(WHY_LABEL[state.why]||'my future')+'</p>';
+  var any=false;
+  MODULES.forEach(function(m,i){var n=(state.notes[i]||'').trim();if(n){if(!any){h+='<h4>My notes</h4>';any=true;}h+='<div class="step-t">'+m.t+'</div><div class="note">'+escapeHtml(n)+'</div>';}});
+  if(!any)h+='<h4>My notes</h4><p style="color:var(--fg-muted)">Add notes under any step and they’ll show up here.</p>';
+  document.getElementById('planDoc').innerHTML=h;
+}
+function copyPlan(){
+  var t=planText();
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(function(){flash('Plan copied to your clipboard')},function(){flash('Copy not available here')});}
+  else{flash('Copy not available here');}
+}
+function emailPlan(){
+  window.location.href='mailto:?subject='+encodeURIComponent('My FirstHome plan'+(state.name?' for '+state.name:''))+'&body='+encodeURIComponent(planText());
+}
+function escapeHtml(s){return s.replace(/[&<>]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;'}[c];});}
+function flash(m){var t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(t._h);t._h=setTimeout(function(){t.classList.remove('show')},2400);}
+
+// ---- persistence ----
+function save(){try{localStorage.setItem('fhiq_demo_plan',JSON.stringify(state));}catch(e){}}
+function load(){try{var x=localStorage.getItem('fhiq_demo_plan');if(x){var p=JSON.parse(x);for(var k in p)state[k]=p[k];if(!state.notes)state.notes={};}}catch(e){}}
+
+// ---- did you know ----
+var FACTS=[
+ {s:"Nearly half of first-time buyers think they need 20% down. The average is about 8%.",src:"FirstHome IQ Financial Literacy Report"},
+ {s:"There are more than 2,000 down payment assistance programs in the US. Most first-time buyers qualify for at least one.",src:"Down Payment Resource, 2025"},
+ {s:"Only 8% of Americans correctly identify the minimum down payment to buy a home. (It's 3%.)",src:"FirstHome IQ Financial Literacy Report"},
+ {s:"The single biggest move on a credit score is on-time payments, and it improves month over month.",src:"FICO"},
+ {s:"Over half of millennials and Gen Z feel overwhelmed by financial information. The fix isn't more info, it's the right info at the right moment.",src:"FirstHome IQ Financial Literacy Report"}
+];
+function renderDyk(){
+  var f=FACTS[Math.floor(Math.random()*FACTS.length)];
+  document.getElementById('dyk').innerHTML='<span class="eyebrow">Did you know?</span><div class="stat">'+f.s+'</div><div class="src">Source: '+f.src+'</div>';
+}
+
+function restart(){
+  try{localStorage.removeItem('fhiq_demo_plan');}catch(e){}
+  state={stage:null,stress:null,why:null,notes:{},name:"",email:""};
+  document.querySelectorAll('.opt.sel').forEach(function(o){o.classList.remove('sel')});
+  document.getElementById('fn').value='';document.getElementById('em').value='';
+  document.getElementById('sent').style.display='none';
+  document.querySelectorAll('#mods .mod').forEach(function(m){m.classList.remove('done')});
+  MODULES.forEach(function(m,i){var t=document.getElementById('note'+i);if(t)t.value='';});
+  go('s-hero');
+}
+
+load();
+if(state.name)document.getElementById('fn').value=state.name;
+if(state.email)document.getElementById('em').value=state.email;
+renderDyk();
+</script>
+</body>
+</html>
