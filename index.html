@@ -897,7 +897,11 @@ function showCalc(href,title,captureHTML){
   document.getElementById('ccTitle').textContent=String(title).replace(/↗/g,'').trim();
   document.getElementById('ccCapture').innerHTML=captureHTML;
   document.getElementById('ccLoading').style.display='flex';
-  document.getElementById('ccFrame').src=href;
+  // Load the calculator in embed mode so the learn.firsthomeiq.com top nav and
+  // page chrome are hidden — the consumer stays inside this plan and can't
+  // wander off into the learn site (e.g. its own "My Plan").
+  var embedHref = href + (href.indexOf('?')>-1?'&':'?') + 'embed=1';
+  document.getElementById('ccFrame').src=embedHref;
   document.getElementById('calcModal').classList.add('open');
   document.body.style.overflow='hidden';
 }
