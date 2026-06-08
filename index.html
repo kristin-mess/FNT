@@ -546,10 +546,9 @@ function buildRecap(){
 // ---- modules ----
 var MODULES=[
  {t:"Should I rent or own?",planLabel:"Renting vs Owning",vid:"u8GOWR2tMcs",
-  frame:"Before anything else, sit with the real question: is owning right for you right now? Renting works for some seasons of life, owning for others. We look at both the trade-offs and the math.",
+  frame:"Before anything else, sit with the real question: is owning right for you right now? Renting wins some seasons of life, owning wins others. The trick is to look past this month and see the big picture.",
   parts:[
-   {lbl:"Get clear on renting vs owning",text:"Renting and owning each come with real trade-offs: cost, flexibility, stability, maintenance, and building equity. Think through what fits your life right now and jot what matters most to you in your notes. (A guided renting-vs-owning comparison is coming soon.)"},
-   {lbl:"Run the numbers",text:"Open the Rent vs. Own calculator. Enter your rent, an estimated home price, your down payment, and how long you'd stay. See the total cost of renting vs. owning, plus equity built.",href:"https://learn.firsthomeiq.com/calculators/rent-vs-own",cta:"Open the calculator"}
+   {lbl:"See the big picture",text:"Open The Big Picture. Put in your rent, a home price you have in mind, and what you could put down, then watch how renting and owning compare over your years as a homeowner, not just this month. You will leave with your first step either way.",href:"https://learn.firsthomeiq.com/calculators/big-picture",cta:"Open The Big Picture"}
   ]},
  {t:"Build a budget that fits your real life",vid:"KQ_KWIpdW60",
   frame:"A budget shows you where your money goes today, so you can decide what it does next. This helps you find a comfortable monthly payment, the way a lender would.",
@@ -569,6 +568,13 @@ var MODULES=[
    {lbl:"Do this",text:"Pull your free credit report (no card needed, it's federal law), then set up free monitoring to watch your score and see the moves that improve it.",href:"https://www.annualcreditreport.com/index.action",cta:"Pull your free report"}
   ],
   fields:[{key:"credit",label:"Your credit score (or when you'll check it)",ph:"e.g., 690, or pulling next week"}]},
+ {t:"Tackle your debt",planLabel:"Debt",vid:"fzjekHDDQ38",
+  frame:"Debt is not a dealbreaker, but it is the lever lenders watch most. Your debt-to-income ratio, how much of your monthly income already goes to payments, helps decide how much home you can borrow. Lower it and you widen your options.",
+  parts:[
+   {lbl:"Know your number",text:"Add up your monthly debt payments (car, student loans, credit cards, anything recurring) and divide by your gross monthly income. Most lenders look for that ratio under about 43%, and lower is stronger."},
+   {lbl:"Make a plan to lower it",text:"Pay down the highest-interest balances first, hold off on opening new credit or financing big purchases before you buy, and keep your older accounts open. Small steady progress moves your ratio and your credit score at the same time."}
+  ],
+  fields:[{key:"debt",label:"Your debt plan or DTI",ph:"e.g., DTI ~30%, paying off the car by spring"}]},
  {t:"Your path to the front door",vid:"n1VqSmn5MFk",
   frame:"You've weighed renting vs. owning, you've got a budget, a savings target, and a sense of your credit. Now the practical sequence to get shopping-ready.",
   parts:[
@@ -716,7 +722,7 @@ function planText(){
   L.push('MY HOMEOWNERSHIP WHY: '+(labelList(WHY_OPTS,state.why).join(', ')||'(not set)'));
   L.push('BIGGEST CONCERN: '+(labelList(STRESS_OPTS,state.stress).join(', ')||'(not set)'));
   function f(lbl,key){if(state.fields[key]&&state.fields[key].trim())L.push(lbl+': '+state.fields[key].trim());}
-  f('BUDGET','budget');f('DOWN PAYMENT','downpayment');f('CREDIT','credit');f('HOME I CAN AFFORD','afford');f('WHAT I WANT','want');
+  f('BUDGET','budget');f('DOWN PAYMENT','downpayment');f('CREDIT','credit');f('DEBT','debt');f('HOME I CAN AFFORD','afford');f('WHAT I WANT','want');
   L.push('');
   MODULES.forEach(function(m,i){var n=(state.notes[i]||'').trim();if(n){L.push('NOTE ('+(m.planLabel||m.t)+')');L.push(n);L.push('');}});
   L.push('Built with FirstHome IQ · firsthomeiq.com');
@@ -748,6 +754,7 @@ function renderPlan(){
   h+=planField('Your budget','budget','e.g., $2,000 / month','https://learn.firsthomeiq.com/calculators/budget-worksheet');
   h+=planField('Your down payment','downpayment','e.g., $15,000 or 5%','https://learn.firsthomeiq.com/calculators/down-payment');
   h+=planField('Your credit','credit','e.g., 690, or pulling next week');
+  h+=planField('Your debt','debt','e.g., DTI ~30%, paying off the car by spring');
   h+=planField('The home you can afford','afford','e.g., $325,000','https://learn.firsthomeiq.com/calculators/affordability');
   h+=planField('What you want','want','e.g., 2 beds, near transit, no HOA','https://learn.firsthomeiq.com/calculators/home-wishlist');
   // notes
@@ -756,7 +763,7 @@ function renderPlan(){
   document.getElementById('planDoc').innerHTML=h;
 }
 function focusCard(){
-  var FOCUS={afford:4,credit:3,debt:1,down:2,right:0,process:4};
+  var FOCUS={afford:5,credit:3,debt:4,down:2,right:0,process:5};
   var c=(state.stress&&state.stress.length)?state.stress[0]:null;
   var step,msg;
   if(c){
@@ -841,7 +848,7 @@ function downloadPDF(){
   label('My Homeownership Why');val(labelList(WHY_OPTS,state.why).join(', ')||'(not set)');
   label('Biggest concern');val(labelList(STRESS_OPTS,state.stress).join(', ')||'(not set)');
   function f(l,k){if(state.fields[k]&&state.fields[k].trim()){label(l);val(state.fields[k].trim());}}
-  f('Your budget','budget');f('Your down payment','downpayment');f('Your credit','credit');f('The home you can afford','afford');f('What you want','want');
+  f('Your budget','budget');f('Your down payment','downpayment');f('Your credit','credit');f('Your debt','debt');f('The home you can afford','afford');f('What you want','want');
   var hasNotes=false;
   MODULES.forEach(function(m,i){var n=(state.notes[i]||'').trim();if(n){if(!hasNotes){label('Notes and questions');hasNotes=true;}val((m.planLabel||m.t)+': '+n);}});
   ck();doc.setFont('helvetica','normal');doc.setFontSize(9);doc.setTextColor(120,120,120);doc.text('Built with FirstHome IQ · firsthomeiq.com',M,y+12);
