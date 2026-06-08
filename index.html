@@ -243,10 +243,35 @@ textarea.cap-in{line-height:1.55;resize:vertical;min-height:62px}
 .confetti-piece{position:fixed;top:-12vh;z-index:70;pointer-events:none;border-radius:2px;animation:confettiFall linear forwards}
 @keyframes confettiFall{0%{opacity:1}85%{opacity:1}100%{transform:translateY(118vh) rotate(720deg);opacity:0}}
 
+/* ---- in-plan calculator modal ---- */
+.calc-modal{position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;
+  background:rgba(17,48,43,0.55);backdrop-filter:blur(2px);padding:max(env(safe-area-inset-top),18px) 16px max(env(safe-area-inset-bottom),16px)}
+.calc-modal.open{display:flex;animation:fade .25s var(--ease)}
+.calc-sheet{background:#fff;border-radius:var(--r-md);box-shadow:var(--shadow-lg);width:100%;max-width:760px;
+  height:min(92vh,940px);display:flex;flex-direction:column;overflow:hidden}
+.calc-head{flex-shrink:0;display:flex;align-items:center;gap:12px;padding:14px 16px;border-bottom:1px solid var(--line);background:var(--dark-green)}
+.calc-head .ch-eyebrow{font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--bright-green)}
+.calc-head .ch-title{font-weight:800;font-size:15.5px;color:#fff;line-height:1.2}
+.calc-head .ch-txt{flex:1;min-width:0}
+.calc-x{flex-shrink:0;width:34px;height:34px;border-radius:50%;border:none;background:rgba(255,255,255,0.14);color:#fff;
+  font-size:18px;line-height:1;cursor:pointer;transition:background var(--dur);display:flex;align-items:center;justify-content:center}
+.calc-x:hover{background:rgba(255,255,255,0.28)}
+.calc-frame-wrap{flex:1;position:relative;background:var(--ivory);overflow:hidden}
+.calc-frame{width:100%;height:100%;border:0;display:block}
+.calc-loading{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--fg-muted);font-size:13px;font-weight:600;pointer-events:none}
+.calc-capture{flex-shrink:0;border-top:1px solid var(--line);background:#fff;padding:14px 18px 16px;max-height:42vh;overflow-y:auto}
+.cc-hint{font-size:13px;font-weight:600;color:var(--dark-green);margin-bottom:9px}
+.cc-l{display:block;font-size:11px;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;color:var(--green);margin:10px 0 5px}
+.cc-in{width:100%;font-family:var(--font-sans);font-size:15px;padding:11px 13px;border:1.5px solid var(--line);border-radius:10px;color:var(--dark-grey);background:#fff}
+.cc-in:focus{outline:2px solid var(--green)}
+.cc-row{display:flex;justify-content:flex-end;margin-top:13px}
+
 @media(max-width:520px){
   .topbar{flex-wrap:wrap;gap:8px;padding:8px 14px}
   .toggle .t-label{display:none}
   .myplan-btn{padding:6px 13px;font-size:12px}
+  .calc-modal{padding:0}
+  .calc-sheet{height:100%;max-width:100%;border-radius:0}
 }
 </style>
 </head>
@@ -437,6 +462,24 @@ textarea.cap-in{line-height:1.55;resize:vertical;min-height:62px}
   <div style="margin-top:8px">Demo prototype for partnership discussion. &nbsp;·&nbsp; <button class="restart" onclick="restart()" style="background:none;border:none;color:var(--green);font-weight:600;cursor:pointer;font-family:var(--font-sans);font-size:12.5px">Restart the demo</button></div>
 </footer>
 
+<!-- ============ IN-PLAN CALCULATOR MODAL ============ -->
+<div class="calc-modal" id="calcModal" onclick="if(event.target===this)closeCalc()">
+  <div class="calc-sheet" role="dialog" aria-modal="true" aria-labelledby="ccTitle">
+    <div class="calc-head">
+      <div class="ch-txt">
+        <div class="ch-eyebrow">Part of your plan</div>
+        <div class="ch-title" id="ccTitle">Calculator</div>
+      </div>
+      <button class="calc-x" onclick="closeCalc()" aria-label="Close and return to my plan">✕</button>
+    </div>
+    <div class="calc-frame-wrap">
+      <div class="calc-loading" id="ccLoading">Loading…</div>
+      <iframe class="calc-frame" id="ccFrame" title="Calculator" src="about:blank" onload="document.getElementById('ccLoading').style.display='none'"></iframe>
+    </div>
+    <div class="calc-capture" id="ccCapture"></div>
+  </div>
+</div>
+
 <div id="toast"></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -552,7 +595,12 @@ function renderJourney(){
         '<div class="play"><span></span></div></div>') : '';
     var parts='';
     m.parts.forEach(function(p,pi){
-      var btn = p.href ? ('<a class="btn sm" style="margin-top:11px" href="'+p.href+'" target="_blank" rel="noopener">'+p.cta+' ↗</a>') : '';
+      var btn = '';
+      if(p.href){
+        btn = isEmbeddable(p.href)
+          ? ('<button class="btn sm" style="margin-top:11px" onclick="openCalc('+i+',\''+p.href+'\',\''+jsq(p.cta)+'\')">'+p.cta+'</button>')
+          : ('<a class="btn sm" style="margin-top:11px" href="'+p.href+'" target="_blank" rel="noopener">'+p.cta+' ↗</a>');
+      }
       var plabel = (m.parts.length>1 ? ('Part '+(pi+1)+': '+p.lbl) : p.lbl);
       parts+='<div class="ex"><div class="lbl">'+plabel+'</div><p>'+p.text+'</p>'+btn+'</div>';
     });
@@ -730,7 +778,12 @@ function focusGo(i){
 }
 function planField(label,key,ph,href){
   var v=state.fields[key]?(' value="'+escapeAttr(state.fields[key])+'"'):'';
-  var link=href?(' <a class="plan-link" href="'+href+'" target="_blank" rel="noopener">open calculator ↗</a>'):'';
+  var link='';
+  if(href){
+    link=isEmbeddable(href)
+      ? (' <a class="plan-link" onclick="openCalcField(\''+href+'\',\''+key+'\',\''+jsq(label)+'\',\''+jsq(ph)+'\')">open calculator</a>')
+      : (' <a class="plan-link" href="'+href+'" target="_blank" rel="noopener">open calculator ↗</a>');
+  }
   return '<h4>'+label+link+'</h4><input class="plan-input" type="text" placeholder="'+ph+'"'+v+' oninput="setField(\''+key+'\',this.value)">';
 }
 function escapeAttr(s){return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');}
@@ -806,6 +859,55 @@ function syncInputs(){
     (m.fields||[]).forEach(function(fl){var el=document.getElementById('f-'+fl.key);if(el&&state.fields[fl.key]!=null)el.value=state.fields[fl.key];});
   });
 }
+
+// ---- in-plan calculator modal ----
+function isEmbeddable(href){return /^https:\/\/learn\.firsthomeiq\.com\//.test(href);}
+function jsq(s){return String(s).replace(/\\/g,'\\\\').replace(/'/g,"\\'");}
+function captureField(key,label,ph){
+  var v=state.fields[key]?escapeAttr(state.fields[key]):'';
+  return '<label class="cc-l">'+escapeHtml(label)+'</label>'+
+    '<input class="cc-in" type="text" placeholder="'+escapeAttr(ph)+'" value="'+v+'" '+
+    'oninput="setFieldLive(\''+key+'\',this.value)">';
+}
+function openCalc(modIndex,href,title){
+  var m=MODULES[modIndex];
+  var fields=m.fields||[];
+  var cap;
+  if(fields.length){
+    cap='<div class="cc-hint">Got your number? Drop it straight into your plan — no copying, no leaving this page.</div>';
+    fields.forEach(function(fl){cap+=captureField(fl.key,fl.label,fl.ph);});
+  }else{
+    cap='<div class="cc-hint">When you have what you need, close this and keep going. Your spot in the plan is saved.</div>';
+  }
+  showCalc(href,title,cap);
+}
+function openCalcField(href,key,label,ph){
+  var cap='<div class="cc-hint">Got your number? Drop it straight into your plan — no copying, no leaving this page.</div>'+
+    captureField(key,label,ph);
+  showCalc(href,label,cap);
+}
+function showCalc(href,title,captureHTML){
+  document.getElementById('ccTitle').textContent=String(title).replace(/↗/g,'').trim();
+  document.getElementById('ccCapture').innerHTML=captureHTML;
+  document.getElementById('ccLoading').style.display='flex';
+  document.getElementById('ccFrame').src=href;
+  document.getElementById('calcModal').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeCalc(){
+  document.getElementById('calcModal').classList.remove('open');
+  document.getElementById('ccFrame').src='about:blank';
+  document.body.style.overflow='';
+  syncInputs();
+  if(document.getElementById('s-plan').classList.contains('active'))renderPlan();
+}
+function setFieldLive(key,val){
+  state.fields[key]=val;save();
+  var u=document.getElementById('f-'+key);if(u&&u.value!==val)u.value=val;
+}
+document.addEventListener('keydown',function(e){
+  if(e.key==='Escape'&&document.getElementById('calcModal').classList.contains('open'))closeCalc();
+});
 
 // ---- persistence ----
 function save(){try{localStorage.setItem('fhiq_demo_plan',JSON.stringify(state));}catch(e){}}
